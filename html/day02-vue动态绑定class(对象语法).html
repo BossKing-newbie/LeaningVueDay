@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .active{
+        color: red;
+    }
+    .line{
+        text-decoration: underline;
+    }
+</style>
+<body>
+<div id="app">
+<!--    使用方法的时候切记小括号-->
+    <h2 v-bind:class="getClasses()">{{message}}</h2>
+    <button v-on:click="change">Active</button>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好，Vue!',
+      isActive: true,
+      isLine: true
+    },
+    methods:{
+      change:function () {
+        this.isActive=!this.isActive;
+      },
+      getClasses:function () {
+        return {active: this.isActive , line:this.isLine};
+      }
+    }
+  })
+</script>
+</body>
+</html>

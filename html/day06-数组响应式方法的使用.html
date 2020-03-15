@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <ul>
+        <li v-for="item in items">{{item}}</li>
+    </ul>
+    <button @click="btnClick">点击按钮</button>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好，Vue!',
+      items:['A','B','C','D']
+    },
+    methods:{
+      btnClick() {
+        //数组.splice()方法的演示
+        //第一个参数从数组的索引开始删除元素
+        //当第二个参数为0时，表示插入元素，第一个参数表示从哪个位置插入，第三个参数表示插入的元素的值
+        this.items.splice(2,0,'M')
+      }
+    }
+  })
+</script>
+</body>
+</html>

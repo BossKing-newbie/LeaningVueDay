@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button>按钮一</button>
+<button>按钮二</button>
+<button>按钮三</button>
+<button>按钮四</button>
+</body>
+<script>
+    const btns=document.querySelectorAll("button");
+    for (let i=0;i<btns.length;i++){
+      btns[i].addEventListener("click",function () {
+        console.log("I love you seven"+i);
+      })
+    }
+</script>
+</html>

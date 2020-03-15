@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <h2>总价格:{{totalPrice}}</h2>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好，Vue!',
+      seafood:[
+        {name:'shrimp', price:50},
+        {name:'fish', price:25},
+        {name:'crab', price:55}
+      ]
+    },
+    computed:{
+      totalPrice:function () {
+        let result=0
+        for(let sea of this.seafood){
+          result+=sea.price
+        }
+        return result
+      }
+    }
+  })
+</script>
+</body>
+</html>

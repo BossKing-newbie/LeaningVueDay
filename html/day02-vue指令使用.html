@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h2 v-html="message"></h2>
+        <h2 v-cloak>{{date}}</h2>
+        <img v-bind:src="url" alt="图片" v-cloak>
+<!--        v-bind语法糖写法-->
+        <img :src="url" alt="图片" v-cloak>
+    </div>
+</body>
+<script src="../js/vue.js"></script>
+<script>
+    setTimeout(function () {
+        const app = new Vue({
+            el: "#app",
+            data: {
+                message: '<a href="http://www.baidu.com">百度一下</a>' ,
+                date: 'today is WednesDay',
+                url: 'https://img.alicdn.com/tfs/TB1vYlkdnZmx1VjSZFGXXax2XXa-468-644.jpg_400x400q100.jpg_.webp'
+            }
+        })
+    }, 1000);
+
+</script>
+
+</html>

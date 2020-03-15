@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .active{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(item, index) in movies" v-on:click="getIndex(index)" v-bind:class="getFontColor(index)">{{item.movie}}</li>
+        </ul>
+    </div>
+</body>
+<script src="../js/vue.js"></script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好，Vue!',
+      movies: [
+        {movie: "回家的诱惑", fontColor: false},
+        {movie: "海王", fontColor: false},
+        {movie: "福克斯", fontColor: false}
+      ]
+    },
+    methods: {
+      getIndex: function (index) {
+        this.movies[index].fontColor = !this.movies[index].fontColor;
+        console.log("change!");
+      },
+      getFontColor: function (index) {
+        return {active: this.movies[index].fontColor};
+      }
+    }
+  })
+</script>
+</html>

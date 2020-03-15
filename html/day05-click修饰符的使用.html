@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app" @click="divClick">
+    。。。。。
+<!--    阻止了事件冒泡-->
+    <button @click.stop="btnClick">点击按钮</button>
+    <form action="www.baidu.com">
+        <input type="submit" value="提交" @click.prevent.stop="submitClick">
+    </form>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好，Vue!'
+    },
+    methods:{
+      divClick(){
+        console.log("div的点击事件");
+      },
+      btnClick(){
+        console.log("btn的点击事件");
+      },
+      submitClick(){
+        console.log("prevent修饰符能够阻止默认事件");
+      }
+    }
+  })
+</script>
+</body>
+</html>
