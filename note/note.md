@@ -39,3 +39,30 @@ v-if:当条件为false，包含v-if的标签元素，不会存在于网页DOM中
 #### Vue过滤器语法
 在new Vue创建对象时，编写filters过滤器
 html页面语法：变量 | 过滤器名称
+#### Javascript高阶函数的使用
+数组.filter/map/reduce<br>
+filter实现数组过滤
+```
+    const nums=[20,40,60,80,100,120,150]
+    let filterNums=nums.filter(function (n) {
+      return n<100
+    })
+    console.log(filterNums);
+```
+filter中的回调函数有一个要求：必须返回一个boolean值.<br>
+当返回true时，函数内部会自动将这次回调的n加入到新的数组中.<br>
+当返回false时，函数内部会过滤掉这次的n.<br> 
+map实现数组变化:返回数组
+```
+    let mapNums=nums.map(function (n) {
+      return n+2
+    })
+    console.log(mapNums);
+```
+reduce函数的使用：对数组所有的内容进行汇总<br>
+第一个参数为回调函数,第二个参数为previousValue的初始值
+```
+    let reduceNums=nums.reduce(function (previousValue,currentValue) {
+      return previousValue+currentValue
+    },0)
+```

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    const nums=[20,40,60,80,100,120,150]
+    let filterNums=nums.filter(function (n) {
+      return n<100
+    })
+    console.log('filter数组函数：');
+    console.log(filterNums);
+    console.log('map函数：');
+    let mapNums=nums.map(function (n) {
+      return n+2
+    })
+    console.log(mapNums);
+    let reduceNums=nums.reduce(function (previousValue,currentValue) {
+      return previousValue+currentValue
+    },0)
+    console.log('reduce函数:');
+    console.log(reduceNums);
+</script>
+</body>
+</html>
