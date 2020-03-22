@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <label for="agreement">
+        <input type="checkbox" id="agreement" v-model="isAgree">同意协议
+    </label>
+    <h2>是否同意协议：{{isAgree}}</h2>
+    <button :disabled="!isAgree">下一步</button>
+    <br>
+    <input type="checkbox" value="傻婆" v-model="names">傻婆
+    <input type="checkbox" value="猪雯" v-model="names">猪雯
+    <input type="checkbox" value="雯雯" v-model="names">雯雯
+    <input type="checkbox" value="老婆" v-model="names">老婆
+    <h2>我喜欢的人：{{names}}</h2>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好，Vue!',
+      isAgree:false,
+      names:[]
+    }
+  })
+</script>
+</body>
+</html>
