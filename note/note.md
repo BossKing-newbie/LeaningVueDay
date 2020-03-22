@@ -66,3 +66,10 @@ reduce函数的使用：对数组所有的内容进行汇总<br>
       return previousValue+currentValue
     },0)
 ```
+#### v-model结合radio单选按钮的操作
+v-model='vue的data变量名'
+```
+    <input type="radio" id="male" value="男" v-model="sex">男
+    <input type="radio" id="female" value="女" v-model="sex">女
+    <h2>选择的是:{{sex}}</h2>
+```
