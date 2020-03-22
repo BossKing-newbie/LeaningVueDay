@@ -73,3 +73,7 @@ v-model='vue的data变量名'
     <input type="radio" id="female" value="女" v-model="sex">女
     <h2>选择的是:{{sex}}</h2>
 ```
+#### v-model修饰符的使用
+v-model.lazy:默认情况下是在input时间中同步输入框的数据的。lazy修饰符可以让数据在失去焦点或回车时才会更新.<br>
+v-model.number:默认情况下，无论我们输入的是字母还是数组，都会被当做字符串来进行处理。但是如果我们希望处理的是数字类型，那么最好直接将内容当做数字进行处理。number修饰符可以让在输入框中输入的内容自动转成数字类型.<br>
+v-model.trim:如果输入的内容首尾有很多空格，通常我们希望将其去除，trim修饰符可以过滤左右两边的空格。<br>
