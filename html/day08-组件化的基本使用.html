@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <my-cpn></my-cpn>
+    <my-cpn></my-cpn>
+    <cpn></cpn>
+    <cpn></cpn>
+</div>
+<div id="app1">
+    <my-cpn></my-cpn>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+
+  //1.创建组件构造器对象
+  const cpnC = Vue.extend({
+    template: `
+        <div>
+            <h2>我爱你傻婆！</h2>
+            <h4>老婆我爱你！</h4>
+        </div>`
+  });
+  //2.注册组件
+  Vue.component('my-cpn', cpnC);
+
+
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好，Vue!'
+    },
+    components: {
+      //标签名：注册的组件变量名
+      cpn: cpnC
+    }
+  })
+  const app1 = new Vue({
+    el: '#app1'
+  })
+
+
+</script>
+</body>
+</html>

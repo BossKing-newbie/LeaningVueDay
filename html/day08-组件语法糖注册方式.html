@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <cpn1></cpn1>
+    <cpn2></cpn2>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+    //注册全局组件的语法糖
+    Vue.component('cpn1',{
+      template:`
+      <div>
+            <h2>我爱你傻婆！</h2>
+            <h4>老婆我爱你！</h4>
+      </div>
+      `
+    })
+    //注册局部组件的语法糖
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好，Vue!'
+    },
+    components:{
+      'cpn2':{
+        template: `
+        <div>
+            <h2>我爱你傻婆！</h2>
+            <h4>老婆我爱你！</h4>
+        </div>
+        `
+      }
+    }
+  })
+</script>
+</body>
+</html>
