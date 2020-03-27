@@ -157,3 +157,58 @@ const app = new Vue({
     }
   })
 ```
+**模板中应该将组件包含在一个根元素div**
+#### Vue组件数据的存放
+```html
+//注册一个全局组件
+  Vue.component('cpn', {
+    template: '#cpn',
+    //注意是个函数
+    data() {
+      return {
+        title: 'BossKing'
+      }
+    }
+  })
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好，Vue!'
+    }
+  })
+```
+#### 父子组件的通信
+通过props向子组件传递数据,即子组件中使用props负责接收数据 <br>
+```
+   //数据
+   data: {
+      message: '你好，Vue!',
+      movies:["黑色的四叶草",'火影忍者','斗罗大陆']
+    },
+    //props接收数据
+    props:{
+      cMessage:{
+       type:String,
+       default:'',
+       required:true
+      },
+      cmovie:{
+        type:Array,
+        default(){
+          return ['电影']
+        }
+      }
+    }
+    //v-bind:动态绑定
+    <cpn2  v-bind:c-message="message" :cmovie="movies"></cpn2>
+    //模板中展示数据
+    <template id="father">
+        <div>
+            <h2>我爱你傻婆！好想你！</h2>
+            <h2>{{cMessage}}</h2>
+            <li v-for="item in cmovie">{{item}}</li>
+        </div>
+    </template>
+```
+**编写代码注意点**:如果js中使用驼峰规则命名，在动态绑定时需要使用-连接，如cMessage转换为c-message<br>
+通过事件向父组件发送消息 
