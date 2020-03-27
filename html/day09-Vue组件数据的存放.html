@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <cpn></cpn>
+    <cpn></cpn>
+</div>
+<template id="cpn">
+    <div>
+        <h2>{{title}}</h2>
+        <h2>我想你了傻婆！好想你！</h2>
+        <h2>计数器:{{counter}}</h2>
+        <button @click="increment">+</button>
+        <button @click="decrement">-</button>
+    </div>
+</template>
+<script src="../js/vue.js"></script>
+<script>
+  //注册一个全局组件
+  Vue.component('cpn', {
+    template: '#cpn',
+    //注意是个函数
+    data() {
+      return {
+        title: 'BossKing',
+        counter:0
+      }
+    },
+    methods:{
+      increment(){
+        this.counter++
+      },
+      decrement(){
+        this.counter--
+      }
+    }
+  })
+  const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好，Vue!'
+    }
+  })
+</script>
+</body>
+</html>
