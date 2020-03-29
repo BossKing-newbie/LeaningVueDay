@@ -66,7 +66,7 @@ reduce函数的使用：对数组所有的内容进行汇总<br>
       return previousValue+currentValue
     },0)
 ```
-#### v-model结合radio单选按钮的操作
+#### v-model:实现数据的双向绑定-结合radio单选按钮的操作
 v-model='vue的data变量名'
 ```
     <input type="radio" id="male" value="男" v-model="sex">男
@@ -212,3 +212,32 @@ const app = new Vue({
 ```
 **编写代码注意点**:如果js中使用驼峰规则命名，在动态绑定时需要使用-连接，如cMessage转换为c-message<br>
 通过事件向父组件发送消息 
+#### 子组件向父组件传递数据
+```
+        btnClick(item){
+          this.$emit('item-click',item);
+        }
+```
+自定义事件传递数据，html中负责接收，不需要特地去接收参数，会默认传参
+```
+<div id="app">
+    <cpn @item-click="cpnClick"></cpn>
+</div>
+```
+JS中定义事件：
+```
+    const app = new Vue({
+    el: '#app',
+    data: {
+      message: '你好，Vue!'
+    },
+    components:{
+      cpn:cpn
+    },
+    methods: {
+      cpnClick(item){
+        console.log(item);
+      }
+    }
+  })
+```
