@@ -93,7 +93,7 @@ v-model.trim:如果输入的内容首尾有很多空格，通常我们希望将�
 ```
 注意Vue.component的标签变量名不支持驼峰规则，不能出现大写<br>
 ##### 局部组件
-```
+```js
 const app = new Vue({
     el: '#app',
     data: {
@@ -105,7 +105,25 @@ const app = new Vue({
     }
   })
 ```
+##### 在组件中使用样式
+
+- 在组件中定义样式，组件里的样式会影响所有组件，如何设定，让样式只作用于当前组件？
+
+- content组件中的style将会影响整个页面的元素，因此在组件的style标签里加入scoped关键字，让该样式只作用于
+  当前组件。
+
+- ```html
+  <style scoped>
+  div{
+  	border: 1px solid red;
+  }
+  </style>
+  ```
+
+- 
+
 #### Vue注册组件的语法糖(简写)
+
 ```
 //注册全局组件的语法糖
     Vue.component('cpn1',{
@@ -247,6 +265,218 @@ JS中定义事件：
 #### 组件访问：子组件访问父组件
 1.this.$parent<br>
 2.this.$root
+
 #### 插槽的基本使用
 放在template中的插槽使用：slot<br>
 如果有多个元素则一起进行插槽替换
+
+#### Vue开发模式
+
+##### 1.vue-cli骨架
+
+​	CLI（command line interfaces ）命令行接口。在进行Vue项目开发时，可以选择不同的Vue模板进行项目的搭建，比如simple、webpack-simple、webpack、browserify/browserify-simple等；vue-cli是官方提供的一个脚手架（预先定义好的目录结构及基础代码，咱们在创建 Maven 项目时可以选择创建一个骨架项目，这个骨架项目就是脚手架），用于快速生成一个 vue 的项目模板。
+
+- 使用vue list命令查看当前可用的vue骨架
+
+- 使用vue命令创建基于vue-webpack-simple骨架的项目,vue-cli-demo是项目名，过程中需要输入一些参数，回车是使用提示的值。
+
+- ```shell
+  vue init webpack-simple vue-cli-demo
+  ```
+
+- 进入到项目文件中，安装依赖环境
+
+- ```shell
+  npm install
+  ```
+
+- ```shell
+  npm run dev
+  ```
+
+##### 2.演示图
+
+![](.//image//vue_init.png)
+
+
+
+#### http请求--ajax
+
+##### 1.什么是Axios
+
+- Axios 是一个开源的可以用在浏览器端和 NodeJS 的异步通信框架，她的主要作用就是实现 A JAX 异步通信，其功能特点如下：
+- 从浏览器中创建 XMLHttpRequests
+- 从 node.js 创建 http 请求
+- 支持 Promise API
+- 拦截请求和响应
+- 转换请求数据和响应数据
+- 取消请求
+- 自动转换 JSON 数据
+- 客户端支持防御 XSRF （跨站请求伪造）
+
+##### 2.Axios的使用
+
+1.安装vue axios
+
+```node
+npm install --save axios vue-axios
+```
+
+2.在main.js引入
+
+在项目中使用axios模块
+
+```js
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
+```
+
+3.发送ajax请求
+
+```js
+this.axios({
+	method:'get',
+	url:'http://bit.ly/2mTM3nY',
+	data:{}
+}).then(function (response) {
+	console.log(response.data)
+	});
+```
+
+4.后端解决跨域问题
+
+```xml
+<mvc:cors>
+<mvc:mapping path="/**"
+	allowed-origins="*"
+	allowed-methods="POST, GET, OPTIONS, DELETE, 		PUT,PATCH"
+	allowed-headers="Content-Type, Access-Control-		Allow-Headers, Authorization, X-Requested-
+	With"
+	allow-credentials="true" />
+</mvc:cors>
+```
+
+在spring-mvc.xml中加入上述这一段。其中，allowed-origins指的是允许的访问源的域名，"*"表示任何人都可以访问，也可以指明具体的域名。
+
+#### 路由（组件之间的跳转）
+
+##### 1.安装路由模块
+
+`npm install vue-router --save-dev`
+
+##### 2.设计路由界面(添加组件)
+
+![](.//image//add_component.png)
+
+![](.//image//vue_router.png)
+
+##### 3. 创建路由表
+
+```js
+import Home from './views/Home'   //引入路由界面
+import Products from "./views/Products";
+
+export const routes=[
+  {
+    path:'/Home',
+    component:Home
+  },
+  {
+    path:'/Products',
+    component: Products
+  }
+]
+
+```
+
+![](.//image//vue_routes.png)
+
+##### 4.main.js引入
+
+```js
+import Vue from 'vue'
+import App from './App.vue'
+import VueRouter from 'vue-router'  // 1.引入路由模块
+import {routes} from "./routes";  //2.引入静态路由表
+
+
+Vue.use(VueRouter); //3.使用路由模块
+
+//4.创建路由实例
+const router=new VueRouter({
+  routes:routes
+});
+
+new Vue({
+  el: '#app',
+  render: h => h(App),
+  router   //5.把路由实例放入Vue中
+})
+
+```
+
+##### 5. 在App.vue中添加标签
+
+![](.//image//vue_router_view.png)
+
+`<router-view></router-view>`
+
+##### 6.展示
+
+![](.//image//routes_url.png)
+
+##### 7.使用路由链接标签router-link标签实现路由跳转
+
+```git
+<template>
+  <div id="app">
+    <span>
+      <router-link to="/Home">首页</router-link>
+    </span>
+    <span>
+      <router-link to="/Products">内容</router-link>
+    </span>
+
+    <router-view></router-view>
+  </div>
+</template>
+```
+
+#### 路由之间的参数传递
+
+##### 设置参数
+
+设置路由表中的变量名：
+
+```js
+export const routes=[
+  {
+    path:'/Home/:userid',
+    component:Home
+  },
+  {
+    path:'/Products/:username',
+    component: Products
+  }
+]
+```
+
+##### 传递参数
+
+![](.//image//app_vue_route.png)
+
+##### 接收参数
+
+```js
+data(){
+      return {
+        id:this.$route.params.userid
+      }
+}
+```
+
+<img src=".//image//accept.png"  />
+
+注：`this.$route.params.userid`中的userid应该与设置参数中的变量名相对应！
