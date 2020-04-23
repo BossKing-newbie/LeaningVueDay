@@ -444,6 +444,16 @@ new Vue({
 </template>
 ```
 
+##### 8. 路由跳转的第二种方式
+
+通过点击事件实现路由的跳转
+
+```js
+btnClick(){
+      this.$router.push("/Products/love_seven")
+}
+```
+
 #### 路由之间的参数传递
 
 ##### 设置参数
@@ -480,3 +490,398 @@ data(){
 <img src=".//image//accept.png"  />
 
 注：`this.$route.params.userid`中的userid应该与设置参数中的变量名相对应！
+
+#### Vue2.0 render: h => h(App)的解释
+
+render: h => h(App)是ES6的写法，其实就是如下内容的简写：
+
+```js
+render: function (createElement) {
+     return createElement(App);
+}
+```
+
+然后ES6写法:
+
+```js
+render: createElement => createElement(App)
+```
+
+然后用h代替createElement，使用箭头函数来写：
+
+```js
+render: h => h(App)
+```
+
+createElement 函数是用来生成 HTML DOM 元素的，而上文中的 Hyperscript也是用来创建HTML结构的脚本，这样作者才把 createElement 简写成 h。
+
+#### element-ui组件搭建界面
+
+##### 1.下载element-ui的依赖
+
+```node
+npm i element-ui -S
+```
+
+##### 2.在源码目录中创建如下结构
+
+![](.//image//vue_folder.png)
+
+- views：用于存放 Vue 视图组件
+- router：用于存放 vue-router 配置
+
+##### 3.创建Vue视图组件
+
+1. Home.vue : 首页
+
+   ```html
+   <template>
+       <div>
+         <span>首页</span>
+       </div>
+   </template>
+   
+   <script>
+     export default {
+       name: "Home"
+     }
+   </script>
+   
+   <style scoped>
+   
+   </style>
+   
+   ```
+
+2. Login.vue : 登录页面
+
+   ```html
+   <template>
+     <div>
+       <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" class="login-box">
+         <h3 class="login-title">欢迎登录</h3>
+         <el-form-item label="账号" prop="username">
+           <el-input type="text" placeholder="请输入账号" v-model="form.username"/>
+         </el-form-item>
+         <el-form-item label="密码" prop="password">
+           <el-input type="password" placeholder="请输入密码" v-model="form.password"/>
+         </el-form-item>
+         <el-form-item>
+           <el-button type="primary" v-on:click="onSubmit('loginForm')">登录</el-button>
+         </el-form-item>
+       </el-form>
+       <el-dialog
+         title="温馨提示"
+         :visible.sync="dialogVisible"
+         width="30%"
+         :before-close="handleClose">
+         <span>请输入账号和密码</span>
+         <span slot="footer" class="dialog-footer">
+         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+         </span>
+       </el-dialog>
+     </div>
+   </template>
+   
+   <script>
+     export default {
+       name: "Login",
+       data(){
+         return {
+           form: {
+             username: '',
+             password: ''
+           },
+           // 表单验证，需要在 el-form-item 元素中增加 prop 属性
+           rules: {
+             username: [
+               {required: true, message: '账号不可为空', trigger: 'blur'}
+             ],
+             password: [
+               {required: true, message: '密码不可为空', trigger: 'blur'}
+             ]
+           },
+           // 对话框显示和隐藏
+           dialogVisible: false
+         }
+       },
+       methods:{
+         handleClose(done) {
+           this.$confirm('确认关闭？')
+             .then(_ => {
+               done();
+             })
+             .catch(_ => {});
+         },
+         onSubmit(formName) {
+           // 为表单绑定验证功能
+           this.$refs[formName].validate((valid) => {
+             if (valid) {
+           // 使用 vue-router 路由到指定页面，该方式称之为编程式导航
+               this.$router.push("/Home");
+             } else {
+               this.dialogVisible = true;
+               return false;
+             }
+           });
+         }
+       }
+     }
+   </script>
+   
+   <style scoped>
+   
+   </style>
+   
+   ```
+
+##### 4.创建路由表
+
+index.js：存储路由信息
+
+```js
+import Vue from 'vue'
+import VueRouter from 'vue-router'  //引入路由模块
+import Login from '../view/Login'   //引入登录界面的组件
+import Home from '../view/Home'     //引入首页的组件
+Vue.use(VueRouter)
+//导出路由表
+export default new VueRouter({
+  routes: [
+    {
+      // 登录页
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      //首页
+      path:'/home',
+      name:Home,
+      component: Home
+    }
+  ]
+})
+
+```
+
+##### 5.main.js中引入模块
+
+```js
+import Vue from 'vue'
+import App from './App'
+import VueRouter from 'vue-router'
+// 导入 ElementUI
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+//引入router
+import router from './router'
+
+Vue.use(VueRouter); //3.使用路由模块
+// 安装 ElementUI
+Vue.use(ElementUI);
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  // 启用 ElementUI
+  render: h => h(App)
+})
+
+```
+
+##### 6.App.vue中显示
+
+```html
+<template>
+  <div id="app">
+    <router-link to="/Home">首页</router-link>
+    <router-link to="/Login">登录界面</router-link>
+
+    <router-view></router-view>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: 'App',
+}
+</script>
+
+<style>
+
+</style>
+
+```
+
+##### 7.美化登录界面
+
+```css
+<style scoped>
+  .login-box{
+    width:500px;
+    height:300px;
+    border:1px solid #DCDFE6;
+    margin:150px auto;
+    padding:20px 50px 20px 30px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px #DCDFE6;
+  }
+  .login-title{
+    text-align: center;
+  }
+</style>
+```
+
+![](.//image//image_login.png)
+
+#### 嵌套子路由的使用
+
+##### 1.创建子路由组件
+
+##### 2.在路由表中父路由引入子路由
+
+```js
+{
+      //首页
+      path:'/home',
+      name:Home,
+      component: Home,
+      children:[
+        {
+          path:'homeshoplist',
+          name: HomeShopList,
+          component:HomeShopList
+        }
+      ]
+    }
+```
+
+**要注意，以 `/` 开头的嵌套路径会被当作根路径。 这让你充分的使用嵌套组件而无须设置嵌套的路径。**
+
+你会发现，`children` 配置就是像 `routes` 配置一样的路由配置数组
+
+![](.//image//router_path.png)
+
+#### 3.在父路由组件中配置router-view和跳转路由按钮
+
+```html
+<el-button type="text" @click="toChildrenRouter">查看商品</el-button>
+```
+
+```js
+toChildrenRouter(){
+        this.$router.push('home/homeshoplist');
+        this.openTable=false
+}
+```
+
+![](.//image//router_view.png)
+
+#### 小扩展
+
+解决路由跳转按钮持续点击的小方法：改变路由跳转按钮的事件：
+
+```js
+toChildrenRouter(){
+        // 当 /home/homeshoplist 匹配成功
+        // homeshoplist 会被渲染在 Home 的 <router-view> 中
+        if(this.openTable){
+          this.openTable=!this.openTable;
+          this.linkButton='返回首页'
+          this.$router.push('home/homeshoplist');
+        }else{
+          this.$router.push('/home');
+          this.openTable=!this.openTable;
+          this.linkButton='查看商品'
+        }
+}
+```
+
+```html
+<el-button type="text" @click="toChildrenRouter">{{linkButton}}</el-button>
+
+```
+
+#### 路由动态匹配
+
+我们经常需要把某种模式匹配到的所有路由，全都映射到同个组件。例如，我们有一个 `User` 组件，对于所有 ID 各不相同的用户，都要使用这个组件来渲染。那么，我们可以在 `vue-router` 的路由路径中使用“动态路径参数”(dynamic segment) 来达到这个效果：
+
+我们经常需要把某种模式匹配到的所有路由，全都映射到同个组件。例如，我们有一个 `User` 组件，对于所有 ID 各不相同的用户，都要使用这个组件来渲染。那么，我们可以在 `vue-router` 的路由路径中使用“动态路径参数”(dynamic segment) 来达到这个效果：
+
+| **模式**                      | 匹配路径            | **$route.params**                    |
+| ----------------------------- | ------------------- | ------------------------------------ |
+| /user/:username               | /user/evan          | { username: 'evan' }                 |
+| /user/:username/post/:post_id | /user/evan/post/123 | { username: 'evan', post_id: '123' } |
+
+##### 1.添加路由配置，用于传递参数
+
+```js
+{
+          path:'homeshoplist/:user',
+          name: 'HomeShopListUser',
+          component:HomeShopList
+}
+```
+
+##### 2.配置路由跳转按钮点击事件
+
+添加属性linkUrl:用于配置跳转路由的属性
+
+```js
+linkUrl:{
+          name:'',
+          params:{
+            user:item.name
+          }
+        }
+```
+
+```
+toChildrenRouter(){
+  // 当 /home/homeshoplist 匹配成功
+  // homeshoplist 会被渲染在 Home 的 <router-view> 中
+  if(this.openTable){
+    this.openTable=!this.openTable;
+    this.linkButton='返回首页';
+    this.linkUrl.name='HomeShopListUser';
+    this.$router.push(this.linkUrl);
+  }else{
+    this.$router.push('/home');
+    this.openTable=!this.openTable;
+    this.linkButton='查看商品'
+  }
+}
+```
+
+子路由显示：
+
+```html
+<template>
+    <div>
+      商品列表信息
+      {{this.$route.params.user}}
+    </div>
+</template>
+```
+
+#### 路由钩子函数
+
+在路由中配置，即路由表中注册过的组件：
+
+```js
+beforeRouteEnter: (to, from, next) => {
+  console.log("准备进入个人信息页");
+  next();
+},
+beforeRouteLeave: (to, from, next) => {
+  console.log("准备离开个人信息页");
+  next();
+}
+```
+
+则可以实现以下效果：
+
+![](.//image//result_router.png)
+
